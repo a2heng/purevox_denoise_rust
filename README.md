@@ -89,6 +89,16 @@ Single thread, one core pinned (AMD Ryzen 5 7500F), release build:
 Without SIMD (scalar reference path, `PUREVOX_SIMD=0`): 1.4–1.8 ms/hop — still well
 inside the 10 ms budget.
 
+> **Debug builds are not real-time.** Unoptimized, one hop takes ~60 ms (measured on
+> `202605a`) — 6× the 10 ms budget, so an embedder running an unoptimized build will
+> tear/drop audio no matter how correct the DSP is. Build the crate with optimization
+> even in dev, e.g. in the application's `Cargo.toml`:
+>
+> ```toml
+> [profile.dev.package.purevox_denoise_rust]
+> opt-level = 3
+> ```
+
 ## Layout
 
 ```
@@ -170,6 +180,15 @@ cargo run --release --bin purevox_verify      # 逐预设 SNR 表
 与 PyTorch 参考实现同权重对比（`purevox_verify`）：整段离线 114~117 dB、最差流式 hop
 109~111 dB、cache 120~123 dB。单线程绑核（Ryzen 5 7500F）每 hop：0.25~0.62 ms
 （10 ms 预算，余量 16~40×）；标量路径 1.4~1.8 ms/hop。
+
+> **Debug 构建跑不动实时**：不优化时一个 hop ≈ 60 ms（`202605a` 实测），是 10 ms 预算的
+> 6 倍；嵌入方用未优化构建会持续爆音/掉音，与 DSP 是否正确无关。开发态也要给这个 crate
+> 开优化，例如在应用 `Cargo.toml` 里：
+>
+> ```toml
+> [profile.dev.package.purevox_denoise_rust]
+> opt-level = 3
+> ```
 
 ## 许可
 

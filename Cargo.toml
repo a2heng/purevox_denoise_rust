@@ -29,3 +29,8 @@ path = "src/bin/purevox_verify.rs"
 
 [profile.release]
 opt-level = 3
+
+# 本仓自己的 examples/tests 默认也带优化：`realtime` 示例要量 10 ms 预算，
+# 未优化的构建是 ~60 ms/hop，看不出真实性能。
+[profile.dev]
+opt-level = 2
