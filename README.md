@@ -65,9 +65,6 @@ cargo run --release --bin purevox_verify      # per-preset SNR table
 All four are 48 kHz, mono, real-valued magnitude mask (noisy phase is preserved).
 Weights and code are both **BSD-3-Clause**.
 
-> `models/purevox_denoise_202611f/` is being finalized; the directory lands here as soon as
-> its checkpoint is released. Until then `purevox --list` reports it as missing and the tests
-> skip it — everything else works unchanged.
 
 ## Parity and performance
 
@@ -78,6 +75,7 @@ Measured against the PyTorch reference on the same weights (`purevox_verify`):
 | `purevox_denoise_202605a` | 116.7 dB | 109.3 dB | 121.8 dB |
 | `purevox_denoise_202605b` | 114.0 dB | 110.5 dB | 119.7 dB |
 | `purevox_denoise_202611d` | 114.2 dB | 109.5 dB | 123.4 dB |
+| `purevox_denoise_202611f` | 115.6 dB | 112.6 dB | 123.5 dB |
 
 Single thread, one core pinned (AMD Ryzen 5 7500F), release build:
 
@@ -86,7 +84,7 @@ Single thread, one core pinned (AMD Ryzen 5 7500F), release build:
 | `202605a` | 0.25 ms | 0.37 ms | 0.025 |
 | `202605b` | 0.35 ms | 0.36 ms | 0.035 |
 | `202611d` | 0.43 ms | 0.63 ms | 0.043 |
-| `202611f` | 0.62 ms | 0.63 ms | 0.062 |
+| `202611f` | 0.68 ms | 0.69 ms | 0.068 |
 
 Without SIMD (scalar reference path, `PUREVOX_SIMD=0`): 1.4–1.8 ms/hop — still well
 inside the 10 ms budget.
@@ -166,8 +164,6 @@ cargo run --release --bin purevox_verify      # 逐预设 SNR 表
 
 四个预设都是 48 kHz、实数幅度掩码（保留含噪相位）。**代码与权重均为 BSD-3-Clause**。
 
-> `models/purevox_denoise_202611f/` 还在收尾：权重一发布就补进仓库。在那之前
-> `purevox --list` 会标它 missing、测试会自动跳过，其余功能不受影响。
 
 ## 对齐与性能
 
