@@ -62,8 +62,12 @@ cargo run --release --bin purevox_verify      # per-preset SNR table
 | `purevox_denoise_202611d` | 160 + 80 ERB bands | 326,172 | 25,588 | h-swish blocks, FIR gate, 2 dual-path GRUs, bottleneck memory |
 | `purevox_denoise_202611f` | 160 + 80 ERB bands | 364,710 | 32,308 | as `202611d` with wider channels and 3 dual-path GRUs |
 
-All four are 48 kHz, 16 kHz–24 kHz band coverage, mono, real-valued magnitude mask
-(noisy phase is preserved). Weights and code are both **BSD-3-Clause**.
+All four are 48 kHz, mono, real-valued magnitude mask (noisy phase is preserved).
+Weights and code are both **BSD-3-Clause**.
+
+> `models/purevox_denoise_202611f/` is being finalized; the directory lands here as soon as
+> its checkpoint is released. Until then `purevox --list` reports it as missing and the tests
+> skip it — everything else works unchanged.
 
 ## Parity and performance
 
@@ -161,6 +165,9 @@ cargo run --release --bin purevox_verify      # 逐预设 SNR 表
 | `purevox_denoise_202611f` | 160 + 80 带 | 364,710 | 32,308 | 同 d，更宽通道 + 3 层双路径 GRU |
 
 四个预设都是 48 kHz、实数幅度掩码（保留含噪相位）。**代码与权重均为 BSD-3-Clause**。
+
+> `models/purevox_denoise_202611f/` 还在收尾：权重一发布就补进仓库。在那之前
+> `purevox --list` 会标它 missing、测试会自动跳过，其余功能不受影响。
 
 ## 对齐与性能
 
