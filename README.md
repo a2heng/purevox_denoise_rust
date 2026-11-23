@@ -109,8 +109,8 @@ docs/porting.md     how the two architectures map onto this code, and the traps
 
 ## License
 
-BSD-3-Clause. See [LICENSE](LICENSE). The bundled model weights are covered by the
-same license (© 2026 a2heng).
+BSD-3-Clause. See [LICENSE](LICENSE). The bundled model weights are released under the
+same license, stated again in [`models/LICENSE`](models/LICENSE) (© 2026 a2heng).
 
 ---
 
@@ -173,4 +173,5 @@ cargo run --release --bin purevox_verify      # 逐预设 SNR 表
 
 ## 许可
 
-BSD-3-Clause，见 [LICENSE](LICENSE)；随仓库分发的四份模型权重采用同一许可（© 2026 a2heng）。
+BSD-3-Clause，见 [LICENSE](LICENSE)；随仓库分发的四份模型权重采用同一许可，
+并在 [`models/LICENSE`](models/LICENSE) 里单独声明（© 2026 a2heng）。
