@@ -11,7 +11,7 @@ Pure-Rust, f32 inference for **PureVox Denoise** — the speech-denoising member
 * **Streaming**: one call per hop, all state in a flat `cache` vector (same layout
   as the ONNX export it mirrors).
 * **Whole-file**: `process_wav` (streaming cache, sample-aligned) or
-  `process_wav_offline` (one batched pass; agrees with streaming to ~1e-7).
+  `process_wav_offline` (one batched pass; agrees with streaming to about 1e-7).
 * **Portable**: hand-written AVX2/FMA kernels with a plain scalar reference and a
   runtime dispatch — every operator also has an intrinsics-free implementation.
 
@@ -89,7 +89,7 @@ Single thread, one core pinned (AMD Ryzen 5 7500F), release build:
 Without SIMD (scalar reference path, `PUREVOX_SIMD=0`): 1.4–1.8 ms/hop — still well
 inside the 10 ms budget.
 
-> **Debug builds are not real-time.** Unoptimized, one hop takes ~60 ms (measured on
+> **Debug builds are not real-time.** Unoptimized, one hop takes about 60 ms (measured on
 > `202605a`) — 6× the 10 ms budget, so an embedder running an unoptimized build will
 > tear/drop audio no matter how correct the DSP is. Build the crate with optimization
 > even in dev, e.g. in the application's `Cargo.toml`:
@@ -137,7 +137,7 @@ AEC 等语音增强任务），`purevox_denoise_rust` 是这个系列里的**降
 - **四个预设**，48 kHz、10 ms 一 hop。
 - **流式**：每 hop 一次调用，全部状态放在一个扁平 `cache` 里（顺序与镜像的 ONNX 契约一致）。
 - **整段**：`process_wav`（走流式缓存，输出与输入逐样本对齐）或 `process_wav_offline`
-  （整段一次算完；与流式差 ~1e-7）。
+  （整段一次算完；与流式差约 1e-7）。
 - **可移植**：手写 AVX2/FMA 内核 + 纯标量参考实现 + 运行时派发；每个算子在
   没有 intrinsics 的平台上都有等价实现。
 
@@ -177,9 +177,9 @@ cargo run --release --bin purevox_verify      # 逐预设 SNR 表
 
 ## 对齐与性能
 
-与 PyTorch 参考实现同权重对比（`purevox_verify`）：整段离线 114~117 dB、最差流式 hop
-109~111 dB、cache 120~123 dB。单线程绑核（Ryzen 5 7500F）每 hop：0.25~0.62 ms
-（10 ms 预算，余量 16~40×）；标量路径 1.4~1.8 ms/hop。
+与 PyTorch 参考实现同权重对比（`purevox_verify`）：整段离线 114～117 dB、最差流式 hop
+109～111 dB、cache 120～123 dB。单线程绑核（Ryzen 5 7500F）每 hop：0.25～0.62 ms
+（10 ms 预算，余量 16～40×）；标量路径 1.4～1.8 ms/hop。
 
 > **Debug 构建跑不动实时**：不优化时一个 hop ≈ 60 ms（`202605a` 实测），是 10 ms 预算的
 > 6 倍；嵌入方用未优化构建会持续爆音/掉音，与 DSP 是否正确无关。开发态也要给这个 crate
