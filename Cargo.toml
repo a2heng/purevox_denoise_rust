@@ -1,0 +1,31 @@
+[package]
+name = "purevox_denoise_rust"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Pure-Rust (f32) reference inference for the PureVox speech denoiser: no ONNX, no C++."
+license = "BSD-3-Clause"
+repository = "https://github.com/a2heng/purevox_denoise_rust"
+readme = "README.md"
+keywords = ["audio", "denoise", "speech", "dsp", "inference"]
+categories = ["multimedia::audio", "science"]
+
+[dependencies]
+hound = "3"
+realfft = "3"
+rustfft = "6"
+safetensors = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+
+[[bin]]
+name = "purevox"
+path = "src/bin/purevox.rs"
+
+[[bin]]
+name = "purevox_verify"
+path = "src/bin/purevox_verify.rs"
+
+[profile.release]
+opt-level = 3
